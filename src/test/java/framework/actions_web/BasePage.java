@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import java.lang.*;
 
+
 import stepdefinition.SharedSD;
 
 /**
@@ -12,13 +13,16 @@ import stepdefinition.SharedSD;
  */
 public class BasePage {
 
-	public void clickOn(By locator) {
-		try {
+	public void clickOn(By locator) throws InterruptedException {
+
+		Thread.sleep(400);
+
 			SharedSD.getDriver().findElement(locator).click();
-		} catch (NoSuchElementException e) {
-			Assert.fail("Element is not found with this locator: " + locator.toString());
-			e.printStackTrace();
-		}
+
+		Thread.sleep(400);
+
+
+
 	}
 
 	public void clear(By locator) {
@@ -39,18 +43,7 @@ public class BasePage {
 		}
 	}
 
-	public StringBuilder delete(By locator, int start, int end){
-		String text=getTextFromElement(locator);
-		StringBuilder str = new StringBuilder();
-		return str.delete(start,end);
-	}
-
-	public int convertToInt(By locator, int start, int end) {
-		String result = delete(locator, start, end).toString();
-		return Integer.parseInt(result);
-	}
-
-	public String getTextFromElement(By locator) {
+	public String getText(By locator) {
 		String text = null;
 		try {
 			text = SharedSD.getDriver().findElement(locator).getText();
@@ -73,4 +66,10 @@ public class BasePage {
 	public void refreshBrowser() {
 		SharedSD.getDriver().navigate().refresh();
 	}
+
+	public int subStringToInt(By locator, int start, int end) {
+		String result = getText(locator).substring(start,end);
+		return Integer.parseInt(result);
+	}
+
 }
